@@ -21,7 +21,7 @@ if __name__ == "__main__":
 
 
     def predict(row: pd.Series) -> str:
-        if (row.name >= 2):  # Ограничиваем на 5 первых запросов для теста
+        if (row.name >= 4):  # Ограничиваем на 5 первых запросов для теста
             return "Лимит запросов"
         return yandex_gpt.ask(row["student_solution"])
 

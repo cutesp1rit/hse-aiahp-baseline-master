@@ -1,8 +1,2 @@
 .idea/
 __pycache__/
-.venv/
-venv/
-.env
-
-data/
-!app/data
