@@ -21,12 +21,14 @@ if __name__ == "__main__":
 
 
     def predict(row: pd.Series) -> str:
+        if (row.name >= 2):  # Ограничиваем на 5 первых запросов для теста
+            return "Лимит запросов"
         return yandex_gpt.ask(row["student_solution"])
 
 
     generate_submit(
-        test_solutions_path="../data/raw/test/solutions.xlsx",
+        test_solutions_path="data/raw/test/solutions.xlsx",
         predict_func=predict,
-        save_path="../data/processed/submission.csv",
+        save_path="data/processed/submission_3.csv",
         use_tqdm=True,
     )
