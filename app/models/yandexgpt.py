@@ -2,7 +2,6 @@ import os
 from typing import Optional
 
 import requests
-
 from app.models.base import BaseModel
 
 
@@ -37,6 +36,9 @@ class YandexGPT(BaseModel):
             "maxTokens": str(max_tokens),
         }
 
+    def send_promt(self):
+        self.messages.append({"role": "system", "text": self.system_prompt})
+
     def ask(self, user_message: str, clear_history: bool = True) -> Optional[str]:
         if clear_history:
             self.messages = []
@@ -46,7 +48,7 @@ class YandexGPT(BaseModel):
         self.messages.append({"role": "user", "text": user_message})
 
         json_request = {
-            "modelUri": self.model_url,
+            "modelUri": "ds://bt1is93i92hqt7rinb17",
             "completionOptions": self.completion_options,
             "messages": self.messages,
         }
