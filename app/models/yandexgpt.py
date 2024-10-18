@@ -48,7 +48,7 @@ class YandexGPT(BaseModel):
         self.messages.append({"role": "user", "text": user_message})
 
         json_request = {
-            "modelUri": "ds://bt1is93i92hqt7rinb17",
+            "modelUri": "ds://bt1o3afonj7krhsq1er8",
             "completionOptions": self.completion_options,
             "messages": self.messages,
         }

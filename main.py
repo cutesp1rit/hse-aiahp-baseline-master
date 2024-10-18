@@ -32,12 +32,13 @@ if __name__ == "__main__":
 
 
     def predict(row: pd.Series) -> str:
-        if (row.name == 0):
-            yandex_gpt.send_promt()
-            time.sleep(6)
+        # if (row.name == 0):
+        #     yandex_gpt.send_promt()
+        #     time.sleep(6)
         # if (row.name >= 4):
         #     return "some"
-        tmp = yandex_gpt.ask(row["student_solution"])
+        str_request = "Я студент и у меня не работает код\n" + row["student_solution"]
+        tmp = yandex_gpt.ask(str_request)
         time.sleep(0.5)
         return tmp
 
