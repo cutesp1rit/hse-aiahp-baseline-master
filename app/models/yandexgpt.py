@@ -19,7 +19,7 @@ class YandexGPT(BaseModel):
         folder_id: str,
         model_name: str = "lite",
         system_prompt: Optional[str] = None,
-        temperature: float = 0.6,
+        temperature: float = 0.1,
         max_tokens: int = 2000,
     ) -> None:
         super().__init__(system_prompt)
@@ -48,7 +48,7 @@ class YandexGPT(BaseModel):
         self.messages.append({"role": "user", "text": user_message})
 
         json_request = {
-            "modelUri": "ds://bt1o3afonj7krhsq1er8",
+            "modelUri": "ds://bt1b8ghps8v4es13ldr9",
             "completionOptions": self.completion_options,
             "messages": self.messages,
         }
