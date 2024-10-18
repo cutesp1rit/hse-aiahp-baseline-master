@@ -27,8 +27,11 @@ def embedding2string(embedding: torch.Tensor) -> str:
     return " ".join([str(i) for i in embedding.tolist()])
 
 
-def generate_submit(test_solutions_path: str, predict_func: Callable, save_path: str, use_tqdm: bool = True) -> None:
+def generate_submit(test_solutions_path: str, test_tasks_path: str, test_tests_path: str, predict_func: Callable, save_path: str, use_tqdm: bool = True) -> None:
     test_solutions = pd.read_excel(test_solutions_path)
+    test_tasks = pd.read_excel(test_tasks_path)
+    test_tests = pd.read_excel(test_tests_path)
+
     bar = range(len(test_solutions))
     if use_tqdm:
         import tqdm
@@ -38,9 +41,14 @@ def generate_submit(test_solutions_path: str, predict_func: Callable, save_path:
     submit_df = pd.DataFrame(columns=["solution_id", "author_comment", "author_comment_embedding"])
     for i in bar:
         idx = test_solutions.iloc[i]["id"]
+        task_id = test_solutions.iloc[i]["task_id"]
+
+        task_row = test_tasks[test_tasks['id'] == task_id].iloc[0]
+        tests_row = test_tests[test_tests['task_id'] == task_id]
+
         solution_row = test_solutions.iloc[i]
 
-        text = predict_func(solution_row)  # here you can do absolute whatever you want
+        text = predict_func(solution_row, task_row, tests_row)  # here you can do absolute whatever you want
 
         embedding = embedding2string(get_sentence_embedding(text))
         submit_df.loc[i] = [idx, text, embedding]

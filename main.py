@@ -31,13 +31,22 @@ if __name__ == "__main__":
     )
 
 
-    def predict(row: pd.Series) -> str:
+    def predict(row_solutions: pd.Series, row_tasks: pd.Series, rows_tests: pd.DataFrame) -> str:
         # if (row.name == 0):
         #     yandex_gpt.send_promt()
         #     time.sleep(6)
-        # if (row.name >= 4):
+        # if (row_solutions.name >= 4):
         #     return "some"
-        str_request = "Я студент и у меня не работает код\n" + row["student_solution"]
+        str_request = "Описание задания: \n" + row_tasks["description"] + "\nЯ студент и у меня не работает код\n" + row_solutions["student_solution"] + '\nТесты (студент их не видит):\n'
+        for i in range(len(rows_tests)):
+            row = rows_tests.iloc[i]
+            if (row['type'] == 'open'):
+                str_request += ' открытый тест \n'
+            else:
+                str_request += ' закрытый тест \n'
+            str_request += 'input '+ str(row['input']) + '\noutput ' + str(row['output']) + "\n"
+
+        ## print(str_request)
         tmp = yandex_gpt.ask(str_request)
         time.sleep(0.5)
         return tmp
@@ -45,6 +54,8 @@ if __name__ == "__main__":
 
     generate_submit(
         test_solutions_path="data/raw/test/solutions.xlsx",
+        test_tasks_path = "data/raw/test/tasks.xlsx",
+        test_tests_path = "data/raw/test/tests.xlsx",
         predict_func=predict,
         save_path="data/processed/submission_3.csv",
         use_tqdm=True,
